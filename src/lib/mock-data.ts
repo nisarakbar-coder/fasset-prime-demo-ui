@@ -12,6 +12,11 @@ import {
   ReportRequest,
   TransactionStatus 
 } from '@/schemas'
+import { 
+  PaymentLink, 
+  Project as PaymentLinkProject, 
+  SettlementAccount 
+} from './schemas/paymentLink'
 
 // Mock Users
 export const mockUsers: User[] = [
@@ -278,6 +283,132 @@ export const mockProjects: Project[] = [
   },
 ]
 
+// Mock Payment Link Projects (for dropdown)
+export const mockPaymentLinkProjects: PaymentLinkProject[] = [
+  {
+    id: 'proj_1',
+    name: 'Sunset Villas',
+    code: 'SV-01',
+    status: 'ACTIVE',
+  },
+  {
+    id: 'proj_2',
+    name: 'TechCorp Token Sale',
+    code: 'TECH-01',
+    status: 'ACTIVE',
+  },
+  {
+    id: 'proj_3',
+    name: 'Marina Heights',
+    code: 'MH-02',
+    status: 'ACTIVE',
+  },
+  {
+    id: 'proj_4',
+    name: 'Downtown Plaza',
+    code: 'DP-03',
+    status: 'PAUSED',
+  },
+]
+
+// Mock Settlement Accounts
+export const mockSettlementAccounts: SettlementAccount[] = [
+  {
+    id: 'settle_1',
+    alias: 'Brix AED (Whizmo)',
+    maskedIban: 'PK** **** 1234',
+    type: 'developer',
+  },
+  {
+    id: 'settle_2',
+    alias: 'TechCorp USD (Wise)',
+    maskedIban: 'US** **** 5678',
+    type: 'developer',
+  },
+  {
+    id: 'settle_3',
+    alias: 'Main AED Account',
+    maskedIban: 'AE** **** 9012',
+    type: 'developer',
+  },
+]
+
+// Mock Payment Links
+export const mockPaymentLinks: PaymentLink[] = [
+  {
+    id: 'plink_1',
+    url: 'https://pay.fasset.com/plink_1',
+    status: 'ACTIVE',
+    createdAt: new Date('2024-01-20T10:30:00Z'),
+    updatedAt: new Date('2024-01-20T10:30:00Z'),
+    projectId: 'proj_1',
+    buyer: { type: 'email', email: 'buyer1@example.com' },
+    amount: 1000.00,
+    currency: 'AED',
+    paymentMethod: 'USDT_TO_AED',
+    settlementAccountId: 'settle_1',
+    expiresAt: new Date('2024-01-21T10:30:00Z'),
+    webhookUrl: 'https://api.example.com/webhooks/payment',
+    successUrl: 'https://example.com/success',
+    cancelUrl: 'https://example.com/cancel',
+    metadata: { orderId: 'ORD-001', customerType: 'VIP' },
+    requireKyc: true,
+    requireWalletWhitelist: true,
+    notes: 'VIP customer - priority processing',
+  },
+  {
+    id: 'plink_2',
+    url: 'https://pay.fasset.com/plink_2',
+    status: 'PAID',
+    createdAt: new Date('2024-01-19T14:15:00Z'),
+    updatedAt: new Date('2024-01-19T16:45:00Z'),
+    projectId: 'proj_2',
+    buyer: { type: 'externalId', externalId: 'CUST-12345' },
+    amount: 2500.00,
+    currency: 'USDT',
+    paymentMethod: 'USDT_TO_AED',
+    settlementAccountId: 'settle_2',
+    expiresAt: new Date('2024-01-20T14:15:00Z'),
+    requireKyc: true,
+    requireWalletWhitelist: true,
+  },
+  {
+    id: 'plink_3',
+    url: 'https://pay.fasset.com/plink_3',
+    status: 'EXPIRED',
+    createdAt: new Date('2024-01-18T09:00:00Z'),
+    updatedAt: new Date('2024-01-18T09:00:00Z'),
+    projectId: 'proj_3',
+    buyer: { type: 'email', email: 'buyer3@example.com' },
+    amount: 500.00,
+    currency: 'AED',
+    paymentMethod: 'AED_BANK_TRANSFER',
+    settlementAccountId: 'settle_3',
+    expiresAt: new Date('2024-01-19T09:00:00Z'),
+    requireKyc: false,
+    requireWalletWhitelist: false,
+    notes: 'Test payment link',
+  },
+  {
+    id: 'plink_4',
+    url: 'https://pay.fasset.com/plink_4',
+    status: 'ACTIVE',
+    createdAt: new Date('2024-01-21T08:30:00Z'),
+    updatedAt: new Date('2024-01-21T08:30:00Z'),
+    projectId: 'proj_1',
+    buyer: { type: 'externalId', externalId: 'CUST-67890' },
+    amount: 5000.00,
+    currency: 'AED',
+    paymentMethod: 'USDT_TO_AED',
+    settlementAccountId: 'settle_1',
+    expiresAt: new Date('2024-01-22T08:30:00Z'),
+    successUrl: 'https://example.com/success',
+    cancelUrl: 'https://example.com/cancel',
+    requireKyc: true,
+    requireWalletWhitelist: true,
+  },
+]
+
 // Mock Report Requests
 export const mockReportRequests: ReportRequest[] = [
   {
@@ -353,4 +484,29 @@ export function getAverageSettlementTime(): number {
   }, 0)
   
   return totalTime / settledTransactions.length / (1000 * 60 * 60) // Convert to hours
+}
+
+// Payment Links helper functions
+export function getPaymentLinksByStatus(status: string): PaymentLink[] {
+  return mockPaymentLinks.filter(link => link.status === status)
+}
+
+export function getPaymentLinksByProject(projectId: string): PaymentLink[] {
+  return mockPaymentLinks.filter(link => link.projectId === projectId)
+}
+
+export function getActiveProjects(): PaymentLinkProject[] {
+  return mockPaymentLinkProjects.filter(project => project.status === 'ACTIVE')
+}
+
+export function getDeveloperSettlementAccounts(): SettlementAccount[] {
+  return mockSettlementAccounts.filter(account => account.type === 'developer')
+}
+
+export function generatePaymentLinkId(): string {
+  return `plink_${Math.random().toString(36).substr(2, 9)}`
+}
+
+export function generatePaymentLinkUrl(id: string): string {
+  return `https://pay.fasset.com/${id}`
 }
