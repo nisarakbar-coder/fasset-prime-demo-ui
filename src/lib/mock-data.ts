@@ -348,7 +348,7 @@ export const mockSettlementAccounts: SettlementAccount[] = [
 export const mockPaymentLinks: PaymentLink[] = [
   {
     id: 'plink_705enabs3',
-    url: 'https://pay.fasset.com/plink_705enabs3',
+    url: 'http://localhost:3000/payment/plink_705enabs3',
     status: 'ACTIVE',
     createdAt: new Date('2024-01-20T10:30:00Z'),
     updatedAt: new Date('2024-01-20T10:30:00Z'),
@@ -369,7 +369,7 @@ export const mockPaymentLinks: PaymentLink[] = [
   },
   {
     id: 'plink_1',
-    url: 'https://pay.fasset.com/plink_1',
+    url: 'http://localhost:3000/payment/plink_1',
     status: 'ACTIVE',
     createdAt: new Date('2024-01-20T10:30:00Z'),
     updatedAt: new Date('2024-01-20T10:30:00Z'),
@@ -390,7 +390,7 @@ export const mockPaymentLinks: PaymentLink[] = [
   },
   {
     id: 'plink_2',
-    url: 'https://pay.fasset.com/plink_2',
+    url: 'http://localhost:3000/payment/plink_2',
     status: 'PAID',
     createdAt: new Date('2024-01-19T14:15:00Z'),
     updatedAt: new Date('2024-01-19T16:45:00Z'),
@@ -406,7 +406,7 @@ export const mockPaymentLinks: PaymentLink[] = [
   },
   {
     id: 'plink_3',
-    url: 'https://pay.fasset.com/plink_3',
+    url: 'http://localhost:3000/payment/plink_3',
     status: 'EXPIRED',
     createdAt: new Date('2024-01-18T09:00:00Z'),
     updatedAt: new Date('2024-01-18T09:00:00Z'),
@@ -423,7 +423,7 @@ export const mockPaymentLinks: PaymentLink[] = [
   },
   {
     id: 'plink_4',
-    url: 'https://pay.fasset.com/plink_4',
+    url: 'http://localhost:3000/payment/plink_4',
     status: 'ACTIVE',
     createdAt: new Date('2024-01-21T08:30:00Z'),
     updatedAt: new Date('2024-01-21T08:30:00Z'),
@@ -540,5 +540,5 @@ export function generatePaymentLinkId(): string {
 }
 
 export function generatePaymentLinkUrl(id: string): string {
-  return `https://pay.fasset.com/${id}`
+  return `http://localhost:3000/payment/${id}`
 }
