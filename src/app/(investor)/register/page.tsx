@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { useRouter } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { RegisterRequestSchema, RegisterRequest } from '@/schemas'
@@ -20,6 +20,8 @@ export default function InvestorRegister() {
   const [error, setError] = useState('')
   const { register: registerUser } = useAuth()
   const router = useRouter()
+  const searchParams = useSearchParams()
+  const nextUrl = searchParams.get('next')
 
   const {
     register,
@@ -40,7 +42,8 @@ export default function InvestorRegister() {
       const success = await registerUser(data)
       if (success) {
         toast.success('Registration successful!')
-        router.push('/investor/kyc')
+        // Redirect to next URL if provided, otherwise to KYC
+        router.push(nextUrl || '/kyc')
       } else {
         setError('Email already exists or registration failed')
       }
@@ -129,7 +132,10 @@ export default function InvestorRegister() {
             <div className="mt-6 text-center">
               <p className="text-sm text-muted-foreground">
                 Already have an account?{' '}
-                <Link href="/investor/login" className="text-primary hover:underline">
+                <Link 
+                  href={nextUrl ? `/investor-login?next=${encodeURIComponent(nextUrl)}` : '/investor-login'} 
+                  className="text-primary hover:underline"
+                >
                   Sign in
                 </Link>
               </p>

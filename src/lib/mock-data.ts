@@ -270,6 +270,17 @@ export const mockApiKeys: ApiKey[] = [
 // Mock Projects
 export const mockProjects: Project[] = [
   {
+    id: 'proj_1',
+    developerId: '1',
+    name: 'Sunset Villas',
+    description: 'Luxury residential development project',
+    tokenSymbol: 'SV',
+    totalSupply: 500000,
+    pricePerToken: 2.0,
+    status: 'ACTIVE',
+    createdAt: new Date('2024-01-01'),
+  },
+  {
     id: '1',
     developerId: '1',
     name: 'TechCorp Token Sale',
@@ -335,6 +346,27 @@ export const mockSettlementAccounts: SettlementAccount[] = [
 
 // Mock Payment Links
 export const mockPaymentLinks: PaymentLink[] = [
+  {
+    id: 'plink_705enabs3',
+    url: 'https://pay.fasset.com/plink_705enabs3',
+    status: 'ACTIVE',
+    createdAt: new Date('2024-01-20T10:30:00Z'),
+    updatedAt: new Date('2024-01-20T10:30:00Z'),
+    projectId: 'proj_1',
+    buyer: { type: 'email', email: 'investor@example.com' },
+    amount: 1000.00,
+    currency: 'AED',
+    paymentMethod: 'USDT_TO_AED',
+    settlementAccountId: 'settle_1',
+    expiresAt: new Date('2025-12-31T23:59:59Z'),
+    webhookUrl: 'https://api.example.com/webhooks/payment',
+    successUrl: 'https://example.com/success',
+    cancelUrl: 'https://example.com/cancel',
+    metadata: { orderId: 'ORD-705', customerType: 'VIP' },
+    requireKyc: true,
+    requireWalletWhitelist: true,
+    notes: 'Test payment link for development',
+  },
   {
     id: 'plink_1',
     url: 'https://pay.fasset.com/plink_1',

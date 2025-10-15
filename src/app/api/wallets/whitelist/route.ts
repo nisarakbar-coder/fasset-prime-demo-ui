@@ -1,51 +1,67 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { WalletWhitelistRequestSchema } from '@/schemas'
-import { mockWallets } from '@/lib/mock-data'
+import { z } from 'zod'
 
+const WhitelistRequestSchema = z.object({
+  chain: z.enum(['erc20', 'trc20']),
+  address: z.string().min(1, 'Address is required'),
+})
+
+// GET /api/wallets/whitelist?chain=erc20|trc20 - Get whitelist status
+export async function GET(request: NextRequest) {
+  try {
+    const { searchParams } = new URL(request.url)
+    const chain = searchParams.get('chain')
+    
+    if (!chain || !['erc20', 'trc20'].includes(chain)) {
+      return NextResponse.json(
+        { error: 'Invalid or missing chain parameter', code: 'VALIDATION_ERROR' },
+        { status: 400 }
+      )
+    }
+
+    // Mock whitelist status - in a real app, this would check the user's actual whitelist status
+    const response = {
+      whitelisted: true,
+      address: '0x742d35Cc6634C0532925a3b8D4C9db96C4b4d8b6',
+      chain: chain as 'erc20' | 'trc20'
+    }
+
+    return NextResponse.json(response)
+  } catch (error) {
+    console.error('Whitelist status fetch error:', error)
+    
+    return NextResponse.json(
+      { error: 'Failed to fetch whitelist status', code: 'FETCH_ERROR' },
+      { status: 500 }
+    )
+  }
+}
+
+// POST /api/wallets/whitelist - Add wallet to whitelist
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json()
-    const validatedData = WalletWhitelistRequestSchema.parse(body)
+    const validatedData = WhitelistRequestSchema.parse(body)
+
+    // Mock whitelist addition - in a real app, this would add the wallet to whitelist
+    const response = {
+      whitelisted: true
+    }
+
+    return NextResponse.json(response)
+  } catch (error) {
+    console.error('Whitelist addition error:', error)
     
-    // Simulate processing delay
-    await new Promise(resolve => setTimeout(resolve, 1000))
-    
-    // Check if wallet already exists
-    const existingWallet = mockWallets.find(
-      w => w.address.toLowerCase() === validatedData.address.toLowerCase()
-    )
-    
-    if (existingWallet) {
+    if (error instanceof Error && error.name === 'ZodError') {
       return NextResponse.json(
-        { success: false, error: 'Wallet already whitelisted' },
+        { error: 'Validation failed', code: 'VALIDATION_ERROR' },
         { status: 400 }
       )
     }
     
-    // Create new wallet
-    const newWallet = {
-      id: Date.now().toString(),
-      userId: '1', // In real app, get from auth
-      address: validatedData.address,
-      chain: validatedData.chain,
-      isWhitelisted: false, // Will be set to true after verification
-      ownershipProof: validatedData.ownershipProof,
-      createdAt: new Date(),
-      updatedAt: new Date(),
-    }
-    
-    mockWallets.push(newWallet)
-    
-    return NextResponse.json({
-      success: true,
-      data: newWallet,
-      message: 'Wallet submitted for whitelisting'
-    })
-  } catch (error) {
-    console.error('Wallet whitelist error:', error)
     return NextResponse.json(
-      { success: false, error: 'Failed to submit wallet for whitelisting' },
-      { status: 400 }
+      { error: 'Failed to add wallet to whitelist', code: 'ADD_ERROR' },
+      { status: 500 }
     )
   }
 }

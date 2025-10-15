@@ -1,4 +1,4 @@
-import {
+import { 
   CreatePaymentLinkRequest,
   CreatePaymentLinkResponse,
   ListPaymentLinksQuery,
@@ -7,6 +7,17 @@ import {
   Project,
   SettlementAccount,
 } from './schemas/paymentLink'
+import {
+  PaymentLinkDetails,
+  KycStatus,
+  KycStartResponse,
+  WalletWhitelistStatus,
+  WhitelistWalletRequest,
+  WhitelistWalletResponse,
+  DepositAddress,
+  TransactionStatus,
+  ReassignResponse,
+} from './schemas/paymentConsumption'
 
 // API Base URL - can be configured via environment variable
 const API_BASE = process.env.NEXT_PUBLIC_API_BASE || '/api'
@@ -115,6 +126,50 @@ class ApiClient {
     
     return this.request<SettlementAccount[]>(endpoint)
   }
+
+  // Payment Link Consumption API
+  async getPaymentLinkDetails(plinkId: string): Promise<PaymentLinkDetails> {
+    return this.request<PaymentLinkDetails>(`/payment-links/${plinkId}`)
+  }
+
+  async getKycStatus(): Promise<KycStatus> {
+    return this.request<KycStatus>('/kyc/status')
+  }
+
+  async startKyc(): Promise<KycStartResponse> {
+    return this.request<KycStartResponse>('/kyc/start', {
+      method: 'POST',
+    })
+  }
+
+  async getWalletWhitelistStatus(chain: 'erc20' | 'trc20'): Promise<WalletWhitelistStatus> {
+    const params = new URLSearchParams({ chain })
+    return this.request<WalletWhitelistStatus>(`/wallets/whitelist?${params}`)
+  }
+
+  async addWalletToWhitelist(data: WhitelistWalletRequest): Promise<WhitelistWalletResponse> {
+    return this.request<WhitelistWalletResponse>('/wallets/whitelist', {
+      method: 'POST',
+      body: JSON.stringify(data),
+    })
+  }
+
+  async getDepositAddress(plinkId: string, chain?: 'erc20' | 'trc20'): Promise<DepositAddress> {
+    const params = new URLSearchParams({ plinkId })
+    if (chain) params.append('chain', chain)
+    return this.request<DepositAddress>(`/deposits/address?${params}`)
+  }
+
+  async getTransactionStatus(plinkId: string): Promise<TransactionStatus> {
+    const params = new URLSearchParams({ plinkId })
+    return this.request<TransactionStatus>(`/transactions?${params}`)
+  }
+
+  async requestPaymentLinkReassign(plinkId: string): Promise<ReassignResponse> {
+    return this.request<ReassignResponse>(`/payment-links/${plinkId}/request-reassign`, {
+      method: 'POST',
+    })
+  }
 }
 
 // Export singleton instance
@@ -129,4 +184,13 @@ export type {
   PaymentLink,
   Project,
   SettlementAccount,
+  PaymentLinkDetails,
+  KycStatus,
+  KycStartResponse,
+  WalletWhitelistStatus,
+  WhitelistWalletRequest,
+  WhitelistWalletResponse,
+  DepositAddress,
+  TransactionStatus,
+  ReassignResponse,
 }

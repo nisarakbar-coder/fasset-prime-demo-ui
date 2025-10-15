@@ -1,7 +1,7 @@
 'use client'
 
-import { useState } from 'react'
-import { useRouter } from 'next/navigation'
+import { useState, useEffect } from 'react'
+import { useRouter, useSearchParams } from 'next/navigation'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
@@ -14,6 +14,8 @@ export default function InvestorLogin() {
   const [password, setPassword] = useState('')
   const [isLoading, setIsLoading] = useState(false)
   const router = useRouter()
+  const searchParams = useSearchParams()
+  const nextUrl = searchParams.get('next')
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -38,7 +40,8 @@ export default function InvestorLogin() {
           if (typeof window !== 'undefined') {
             localStorage.setItem('fasset-user', JSON.stringify(user))
           }
-          router.push('/dashboard')
+          // Redirect to next URL if provided, otherwise to dashboard
+          router.push(nextUrl || '/dashboard')
         }, 100)
       } else {
         alert('Invalid credentials')
@@ -109,7 +112,10 @@ export default function InvestorLogin() {
             <div className="mt-6 text-center">
               <p className="text-sm text-muted-foreground">
                 Don't have an account?{' '}
-                <Link href="/register" className="text-primary hover:underline">
+                <Link 
+                  href={nextUrl ? `/register?next=${encodeURIComponent(nextUrl)}` : '/register'} 
+                  className="text-primary hover:underline"
+                >
                   Sign up
                 </Link>
               </p>

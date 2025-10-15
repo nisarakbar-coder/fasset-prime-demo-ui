@@ -1,37 +1,52 @@
 import { NextRequest, NextResponse } from 'next/server'
+import { z } from 'zod'
 
+const AddressQuerySchema = z.object({
+  plinkId: z.string().min(1, 'Payment link ID is required'),
+  chain: z.enum(['erc20', 'trc20']).optional(),
+})
+
+// GET /api/deposits/address?plinkId=...&chain=... - Get deposit address for payment link
 export async function GET(request: NextRequest) {
   try {
     const { searchParams } = new URL(request.url)
-    const chain = searchParams.get('chain') || 'ETHEREUM'
-    
-    // Simulate processing delay
-    await new Promise(resolve => setTimeout(resolve, 500))
-    
-    // Generate mock deposit address based on chain
-    const addresses = {
-      ETHEREUM: '0x742d35Cc6634C0532925a3b8D4C9db96C4b4d8b6',
-      POLYGON: '0x8ba1f109551bD432803012645Hac136c',
-      ARBITRUM: '0x1234567890123456789012345678901234567890'
+    const queryParams = {
+      plinkId: searchParams.get('plinkId'),
+      chain: searchParams.get('chain') as 'erc20' | 'trc20' | null,
     }
     
-    const depositAddress = addresses[chain as keyof typeof addresses] || addresses.ETHEREUM
+    const validatedQuery = AddressQuerySchema.parse(queryParams)
+
+    // Mock deposit address - in a real app, this would generate a unique deposit address
+    // for the specific payment link and chain
+    const mockAddresses = {
+      erc20: '0x742d35Cc6634C0532925a3b8D4C9db96C4b4d8b6',
+      trc20: 'TQn9Y2khEsLJW1ChVWFMSMeRDow5KcbLSE',
+    }
+
+    const chain = validatedQuery.chain || 'erc20'
     
-    return NextResponse.json({
-      success: true,
-      data: {
-        address: depositAddress,
-        chain,
-        minConfirmations: 12,
-        quoteExpiry: new Date(Date.now() + 15 * 60 * 1000), // 15 minutes
-        networkFee: '0.001',
-        currency: 'USDT'
-      }
-    })
+    const response = {
+      address: mockAddresses[chain],
+      memo: null, // Some chains require memo/tag
+      chain,
+      minAmount: '1000.00',
+      confirmationsRequired: 12
+    }
+
+    return NextResponse.json(response)
   } catch (error) {
-    console.error('Deposit address error:', error)
+    console.error('Deposit address fetch error:', error)
+    
+    if (error instanceof Error && error.name === 'ZodError') {
+      return NextResponse.json(
+        { error: 'Validation failed', code: 'VALIDATION_ERROR' },
+        { status: 400 }
+      )
+    }
+    
     return NextResponse.json(
-      { success: false, error: 'Failed to generate deposit address' },
+      { error: 'Failed to fetch deposit address', code: 'FETCH_ERROR' },
       { status: 500 }
     )
   }

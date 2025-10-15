@@ -36,8 +36,8 @@ export default function InvestorLayout({
   const pathname = usePathname()
 
   useEffect(() => {
-    // Skip authentication check for login pages
-    if (pathname === '/investor-login') {
+    // Skip authentication check for login pages and payment routes
+    if (pathname === '/investor-login' || pathname.startsWith('/payment/')) {
       setIsLoading(false)
       return
     }
@@ -56,10 +56,13 @@ export default function InvestorLayout({
         } catch (error) {
           console.error('Failed to parse stored user:', error)
           localStorage.removeItem('fasset-user')
-          router.push('/investor-login')
+          const currentPath = pathname
+          router.push(`/investor-login${currentPath ? `?next=${encodeURIComponent(currentPath)}` : ''}`)
         }
       } else {
-        router.push('/investor-login')
+        // If we're on a payment route, preserve the current path for redirect after login
+        const currentPath = pathname
+        router.push(`/investor-login${currentPath ? `?next=${encodeURIComponent(currentPath)}` : ''}`)
       }
     }
     setIsLoading(false)
@@ -72,8 +75,8 @@ export default function InvestorLayout({
     router.push('/')
   }
 
-  // For login pages, render children directly
-  if (pathname === '/investor-login') {
+  // For login pages and payment routes, render children directly
+  if (pathname === '/investor-login' || pathname.startsWith('/payment/')) {
     return <>{children}</>
   }
 

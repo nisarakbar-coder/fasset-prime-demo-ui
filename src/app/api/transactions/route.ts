@@ -1,52 +1,44 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { mockTransactions } from '@/lib/mock-data'
-import { PaginationSchema } from '@/schemas'
+import { z } from 'zod'
 
+const TransactionQuerySchema = z.object({
+  plinkId: z.string().min(1, 'Payment link ID is required'),
+})
+
+// GET /api/transactions?plinkId=... - Get transaction status for payment link
 export async function GET(request: NextRequest) {
   try {
     const { searchParams } = new URL(request.url)
-    const page = parseInt(searchParams.get('page') || '1')
-    const limit = parseInt(searchParams.get('limit') || '20')
-    const status = searchParams.get('status')
-    const chain = searchParams.get('chain')
-    const userId = searchParams.get('userId')
-    const developerId = searchParams.get('developerId')
-    
-    let filteredTransactions = [...mockTransactions]
-    
-    // Apply filters
-    if (status) {
-      filteredTransactions = filteredTransactions.filter(tx => tx.status === status)
-    }
-    if (chain) {
-      filteredTransactions = filteredTransactions.filter(tx => tx.chain === chain)
-    }
-    if (userId) {
-      filteredTransactions = filteredTransactions.filter(tx => tx.userId === userId)
-    }
-    if (developerId) {
-      filteredTransactions = filteredTransactions.filter(tx => tx.developerId === developerId)
+    const queryParams = {
+      plinkId: searchParams.get('plinkId'),
     }
     
-    // Pagination
-    const startIndex = (page - 1) * limit
-    const endIndex = startIndex + limit
-    const paginatedTransactions = filteredTransactions.slice(startIndex, endIndex)
+    const validatedQuery = TransactionQuerySchema.parse(queryParams)
+
+    // Mock transaction status - in a real app, this would check the actual transaction status
+    // For demo purposes, we'll simulate different states
+    const statuses = ['PENDING', 'ONCHAIN_CONFIRMED', 'CONVERTING', 'SETTLED'] as const
     
-    return NextResponse.json({
-      success: true,
-      data: paginatedTransactions,
-      pagination: {
-        page,
-        limit,
-        total: filteredTransactions.length,
-        totalPages: Math.ceil(filteredTransactions.length / limit)
-      }
-    })
+    // For consistent testing, let's start with PENDING
+    const response = {
+      status: 'PENDING' as const,
+      txHash: null,
+      updatedAt: new Date().toISOString()
+    }
+
+    return NextResponse.json(response)
   } catch (error) {
-    console.error('Transactions fetch error:', error)
+    console.error('Transaction status fetch error:', error)
+    
+    if (error instanceof Error && error.name === 'ZodError') {
+      return NextResponse.json(
+        { error: 'Validation failed', code: 'VALIDATION_ERROR' },
+        { status: 400 }
+      )
+    }
+    
     return NextResponse.json(
-      { success: false, error: 'Failed to fetch transactions' },
+      { error: 'Failed to fetch transaction status', code: 'FETCH_ERROR' },
       { status: 500 }
     )
   }
