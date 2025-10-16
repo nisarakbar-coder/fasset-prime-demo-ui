@@ -311,7 +311,7 @@ export function TransferStep({ paymentLink, transactionStatus, onStatusChange }:
         <Alert>
           <CheckCircle className="h-4 w-4" />
           <AlertDescription>
-            Your USDT payment has been confirmed on-chain. We're now converting it to AED 
+            Your USDT payment has been confirmed on-chain. We&apos;re now converting it to AED 
             and will settle it to the developer shortly.
           </AlertDescription>
         </Alert>
@@ -322,7 +322,7 @@ export function TransferStep({ paymentLink, transactionStatus, onStatusChange }:
           <Clock className="h-4 w-4" />
           <AlertDescription>
             Your USDT is being converted to AED. This process typically takes a few minutes. 
-            You'll be notified once the settlement is complete.
+            You&apos;ll be notified once the settlement is complete.
           </AlertDescription>
         </Alert>
       )}

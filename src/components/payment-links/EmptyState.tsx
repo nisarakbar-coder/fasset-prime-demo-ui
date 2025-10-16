@@ -20,7 +20,7 @@ export function EmptyState({ type, onCreateLink }: EmptyStateProps) {
           </div>
           <h3 className="text-lg font-semibold mb-2">Access Restricted</h3>
           <p className="text-muted-foreground text-center mb-6 max-w-md">
-            You don't have permission to create or view payment links. 
+            You don&apos;t have permission to create or view payment links. 
             Please contact your administrator to request access.
           </p>
           <Button variant="outline" asChild>

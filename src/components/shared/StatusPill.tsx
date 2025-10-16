@@ -21,6 +21,8 @@ type StatusType =
   | 'DRAFT'
   | 'GENERATING'
   | 'READY'
+  | 'CONVERSION_PENDING'
+  | 'WALLET_PENDING'
 
 interface StatusPillProps {
   status: StatusType
@@ -47,6 +49,8 @@ const statusConfig: Record<StatusType, { label: string; variant: 'default' | 'se
   DRAFT: { label: 'Draft', variant: 'outline' },
   GENERATING: { label: 'Generating', variant: 'secondary' },
   READY: { label: 'Ready', variant: 'default' },
+  CONVERSION_PENDING: { label: 'Converting', variant: 'secondary' },
+  WALLET_PENDING: { label: 'Wallet Pending', variant: 'outline' },
 }
 
 export function StatusPill({ status, className }: StatusPillProps) {

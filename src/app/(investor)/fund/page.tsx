@@ -235,7 +235,7 @@ export default function FundPage() {
                 <div className="space-y-2 text-sm">
                   <div className="flex items-start space-x-2">
                     <CheckCircle className="h-4 w-4 text-green-600 mt-0.5" />
-                    <span>Ensure you're sending on the correct network ({selectedChainInfo?.label})</span>
+                    <span>Ensure you&apos;re sending on the correct network ({selectedChainInfo?.label})</span>
                   </div>
                   <div className="flex items-start space-x-2">
                     <CheckCircle className="h-4 w-4 text-green-600 mt-0.5" />

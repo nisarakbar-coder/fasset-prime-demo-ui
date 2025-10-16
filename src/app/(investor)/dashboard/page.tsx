@@ -82,7 +82,7 @@ export default function InvestorDashboard() {
         />
         <StatCard
           title="KYC Status"
-          value={<StatusPill status={investor.kycStatus} />}
+          value={investor.kycStatus}
           icon={CheckCircle}
           description="Verification status"
         />

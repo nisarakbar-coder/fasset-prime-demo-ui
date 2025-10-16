@@ -46,12 +46,12 @@ export default function WebhooksPage() {
 
   const watchedEvents = watch('events')
 
-  const toggleEvent = (event: string) => {
+  const toggleEvent = (event: 'KYC_PASS' | 'FUNDS_AVAILABLE' | 'PAYOUT_SENT') => {
     const currentEvents = watchedEvents || []
-    if (currentEvents.includes(event as any)) {
+    if (currentEvents.includes(event)) {
       setValue('events', currentEvents.filter(e => e !== event))
     } else {
-      setValue('events', [...currentEvents, event as any])
+      setValue('events', [...currentEvents, event])
     }
   }
 
@@ -148,8 +148,8 @@ export default function WebhooksPage() {
                       <div key={event} className="flex items-center space-x-2">
                         <Checkbox
                           id={event}
-                          checked={watchedEvents?.includes(event as any) || false}
-                          onCheckedChange={() => toggleEvent(event)}
+                          checked={watchedEvents?.includes(event as 'KYC_PASS' | 'FUNDS_AVAILABLE' | 'PAYOUT_SENT') || false}
+                          onCheckedChange={() => toggleEvent(event as 'KYC_PASS' | 'FUNDS_AVAILABLE' | 'PAYOUT_SENT')}
                         />
                         <Label htmlFor={event} className="text-sm">
                           {event.replace('_', ' ')}

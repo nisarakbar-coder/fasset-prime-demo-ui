@@ -7,10 +7,10 @@ const PlinkIdSchema = z.string().min(1)
 // GET /api/payment-links/[plinkId] - Get payment link details
 export async function GET(
   request: NextRequest,
-  { params }: { params: { plinkId: string } }
+  { params }: { params: Promise<{ plinkId: string }> }
 ) {
   try {
-    const { plinkId } = params
+    const { plinkId } = await params
     const validatedPlinkId = PlinkIdSchema.parse(plinkId)
 
     // Find the payment link
@@ -43,7 +43,7 @@ export async function GET(
       project: {
         id: project.id,
         name: project.name,
-        code: project.code,
+        tokenSymbol: project.tokenSymbol,
       },
       buyer: paymentLink.buyer,
       amount: paymentLink.amount.toFixed(2),

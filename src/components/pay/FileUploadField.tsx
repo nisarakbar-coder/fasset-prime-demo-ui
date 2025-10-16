@@ -66,7 +66,7 @@ export function FileUploadField({
         <Upload className="h-4 w-4" />
       </Button>
       <input
-        ref={(el) => fileInputRefs.current[fieldName] = el}
+        ref={(el) => { fileInputRefs.current[fieldName] = el }}
         type="file"
         accept="image/*,.pdf"
         className="hidden"

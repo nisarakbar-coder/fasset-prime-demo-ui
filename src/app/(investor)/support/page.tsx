@@ -85,7 +85,7 @@ const faqs = [
 
 export default function SupportPage() {
   const [isSubmitting, setIsSubmitting] = useState(false)
-  const [submittedTicket, setSubmittedTicket] = useState<any>(null)
+  const [submittedTicket, setSubmittedTicket] = useState<{ id: string; category: string; subject: string; status: string } | null>(null)
   const [selectedCategory, setSelectedCategory] = useState('')
 
   const {
@@ -145,7 +145,7 @@ export default function SupportPage() {
             <CardHeader>
               <CardTitle>Create Support Ticket</CardTitle>
               <CardDescription>
-                Describe your issue and we'll get back to you within 24 hours
+                Describe your issue and we&apos;ll get back to you within 24 hours
               </CardDescription>
             </CardHeader>
             <CardContent>
@@ -157,7 +157,7 @@ export default function SupportPage() {
                     Your support ticket <strong>{submittedTicket.id}</strong> has been created.
                   </p>
                   <p className="text-sm text-muted-foreground mb-6">
-                    We'll review your request and respond within 24 hours.
+                    We&apos;ll review your request and respond within 24 hours.
                   </p>
                   <Button onClick={() => setSubmittedTicket(null)}>
                     Create Another Ticket
@@ -170,7 +170,7 @@ export default function SupportPage() {
                       <Label htmlFor="category">Category</Label>
                       <Select
                         value={watchedCategory}
-                        onValueChange={(value) => setValue('category', value as any)}
+                        onValueChange={(value) => setValue('category', value as 'KYC' | 'WALLET' | 'DEPOSIT' | 'WITHDRAWAL' | 'GENERAL' | 'TECHNICAL')}
                       >
                         <SelectTrigger>
                           <SelectValue placeholder="Select category" />
@@ -194,7 +194,7 @@ export default function SupportPage() {
                     <div className="space-y-2">
                       <Label htmlFor="priority">Priority</Label>
                       <Select
-                        onValueChange={(value) => setValue('priority', value as any)}
+                        onValueChange={(value) => setValue('priority', value as 'LOW' | 'MEDIUM' | 'HIGH' | 'URGENT')}
                       >
                         <SelectTrigger>
                           <SelectValue placeholder="Select priority" />

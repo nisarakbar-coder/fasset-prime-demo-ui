@@ -379,7 +379,7 @@ export function KycStep({ paymentLink, kycStatus, onStatusChange }: KycStepProps
                       <Label htmlFor="employmentStatus">Employment Status *</Label>
                       <Select
                         value={individualForm.watch('employmentStatus')}
-                        onValueChange={(value) => individualForm.setValue('employmentStatus', value as any)}
+                        onValueChange={(value) => individualForm.setValue('employmentStatus', value as string)}
                       >
                         <SelectTrigger>
                           <SelectValue placeholder="Select employment status" />

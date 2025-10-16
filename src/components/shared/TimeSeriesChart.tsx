@@ -5,7 +5,7 @@ import { format } from 'date-fns'
 interface TimeSeriesData {
   date: string | Date
   value: number
-  [key: string]: any
+  [key: string]: string | number | Date
 }
 
 interface TimeSeriesChartProps {

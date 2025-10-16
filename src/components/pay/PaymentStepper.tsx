@@ -155,7 +155,7 @@ export function PaymentStepper({
               paymentLink={paymentLink}
               kycStatus={currentKycStatus}
               onStatusChange={(status) => {
-                setCurrentKycStatus({ status: status as any })
+                setCurrentKycStatus({ status: status as string })
               }}
             />
           )}

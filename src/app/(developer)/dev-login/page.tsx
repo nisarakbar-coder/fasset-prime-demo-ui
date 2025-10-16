@@ -108,7 +108,7 @@ export default function DeveloperLogin() {
 
             <div className="mt-6 text-center">
               <p className="text-sm text-muted-foreground">
-                Don't have an account?{' '}
+                Don&apos;t have an account?{' '}
                 <Link href="/dev/register" className="text-primary hover:underline">
                   Contact sales
                 </Link>

@@ -27,7 +27,7 @@ export default function PaymentPage({ params }: PaymentPageProps) {
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
   const [isAuthenticated, setIsAuthenticated] = useState(false)
-  const [user, setUser] = useState<any>(null)
+  const [user, setUser] = useState<{ id: string; name: string; email: string; role: string } | null>(null)
   const router = useRouter()
 
   useEffect(() => {
@@ -151,7 +151,7 @@ export default function PaymentPage({ params }: PaymentPageProps) {
 
   // If user is authenticated, check buyer match
   const userEmail = user?.email || 'buyer@example.com'
-  const userExternalId = user?.externalId || 'CUST-12345'
+  const userExternalId = 'CUST-12345' // Mock external ID
   const buyerMatches = doesBuyerMatch(paymentLink, userEmail, userExternalId)
 
   if (!buyerMatches) {
@@ -198,8 +198,8 @@ export default function PaymentPage({ params }: PaymentPageProps) {
         <PaymentStepper
           paymentLink={paymentLink}
           kycStatus={kycStatus || { status: 'KYC_NONE' }}
-          walletStatus={walletStatus || { whitelisted: false, address: null, chain: null }}
-          initialTransactionStatus={transactionStatus || { status: 'PENDING', txHash: null, updatedAt: new Date() }}
+          walletStatus={walletStatus || { whitelisted: false, address: undefined, chain: undefined }}
+          initialTransactionStatus={transactionStatus || { status: 'PENDING', txHash: null, updatedAt: new Date().toISOString() }}
           userEmail={userEmail}
           userExternalId={userExternalId}
         />

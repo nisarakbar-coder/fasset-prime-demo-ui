@@ -104,7 +104,7 @@ export function PublicPaymentLinkIntro({ paymentLink }: PublicPaymentLinkIntroPr
       <Alert>
         <AlertCircle className="h-4 w-4" />
         <AlertDescription>
-          You'll need an investor account to complete this payment. 
+          You&apos;ll need an investor account to complete this payment. 
           Create an account or log in to continue.
         </AlertDescription>
       </Alert>
@@ -126,7 +126,7 @@ export function PublicPaymentLinkIntro({ paymentLink }: PublicPaymentLinkIntroPr
       {/* Additional Info */}
       <div className="text-center text-sm text-muted-foreground">
         <p>
-          After creating an account or logging in, you'll be redirected back to complete your payment.
+          After creating an account or logging in, you&apos;ll be redirected back to complete your payment.
         </p>
       </div>
     </div>

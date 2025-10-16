@@ -79,7 +79,7 @@ export default function KYCPage() {
 
   const handleFileUpload = (field: string, file: File | null) => {
     setUploadedFiles(prev => ({ ...prev, [field]: file }))
-    setValue(field as keyof KYCFormData, file as any)
+    setValue(field as keyof KYCFormData, file || undefined)
   }
 
   const nextStep = () => {
@@ -384,7 +384,7 @@ export default function KYCPage() {
                         <div className="border-2 border-dashed border-muted-foreground/25 rounded-lg p-6 text-center">
                           <Upload className="h-8 w-8 mx-auto mb-2 text-muted-foreground" />
                           <p className="text-sm text-muted-foreground mb-2">
-                            Upload your passport, driver's license, or national ID
+                            Upload your passport, driver&apos;s license, or national ID
                           </p>
                           <input
                             type="file"

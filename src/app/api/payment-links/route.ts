@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
+import { ZodError } from 'zod'
 import { 
   mockPaymentLinks, 
   generatePaymentLinkId, 
@@ -9,12 +10,13 @@ import {
 import { 
   CreatePaymentLinkSchema, 
   ListPaymentLinksQuerySchema,
-  PaymentLinkSchema 
+  PaymentLinkSchema,
+  PaymentLink
 } from '@/lib/schemas/paymentLink'
 
 // In-memory storage for created payment links
 // In a real app, this would be a database
-let createdPaymentLinks: PaymentLink[] = []
+const createdPaymentLinks: PaymentLink[] = []
 
 // GET /api/payment-links - List payment links with filtering and pagination
 export async function GET(request: NextRequest) {
@@ -136,13 +138,13 @@ export async function POST(request: NextRequest) {
   } catch (error) {
     console.error('Payment link creation error:', error)
     
-    if (error instanceof Error && error.name === 'ZodError') {
+    if (error instanceof ZodError) {
       return NextResponse.json(
         { 
           error: 'Validation failed', 
           code: 'VALIDATION_ERROR', 
           details: error.message,
-          issues: error.issues || []
+          issues: error.issues
         },
         { status: 400 }
       )

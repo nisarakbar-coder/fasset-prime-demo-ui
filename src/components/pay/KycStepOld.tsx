@@ -16,7 +16,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Alert, AlertDescription } from '@/components/ui/alert'
 import { Badge } from '@/components/ui/badge'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
-import { CheckCircle, Clock, XCircle, Upload, AlertCircle, FileText, User, Building } from 'lucide-react'
+import { CheckCircle, Clock, XCircle, Upload, AlertCircle, FileText, User, Building, ExternalLink } from 'lucide-react'
 import { toast } from 'sonner'
 
 // KYC Form Schemas
@@ -249,7 +249,7 @@ export function KycStep({ paymentLink, kycStatus, onStatusChange }: KycStepProps
         <Alert>
           <Clock className="h-4 w-4" />
           <AlertDescription>
-            Your KYC verification is under review. You'll be notified once the review is complete.
+            Your KYC verification is under review. You&apos;ll be notified once the review is complete.
             This process typically takes a few minutes to several hours.
           </AlertDescription>
         </Alert>

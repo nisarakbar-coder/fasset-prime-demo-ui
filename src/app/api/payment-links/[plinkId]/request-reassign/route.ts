@@ -6,10 +6,10 @@ const PlinkIdSchema = z.string().min(1)
 // POST /api/payment-links/[plinkId]/request-reassign - Request payment link reassignment
 export async function POST(
   request: NextRequest,
-  { params }: { params: { plinkId: string } }
+  { params }: { params: Promise<{ plinkId: string }> }
 ) {
   try {
-    const { plinkId } = params
+    const { plinkId } = await params
     const validatedPlinkId = PlinkIdSchema.parse(plinkId)
 
     // Mock reassignment request - in a real app, this would:

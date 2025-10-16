@@ -127,7 +127,7 @@ export default function WalletWhitelistPage() {
                   <Label htmlFor="chain">Blockchain Network</Label>
                   <Select
                     value={watchedChain}
-                    onValueChange={(value) => setValue('chain', value as any)}
+                    onValueChange={(value) => setValue('chain', value as 'ETHEREUM' | 'POLYGON' | 'ARBITRUM')}
                   >
                     <SelectTrigger>
                       <SelectValue placeholder="Select blockchain" />

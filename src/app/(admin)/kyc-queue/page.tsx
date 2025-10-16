@@ -24,7 +24,7 @@ import { toast } from 'sonner'
 
 export default function KYCQueuePage() {
   const [kycRecords, setKycRecords] = useState(mockKYCRecords)
-  const [selectedRecord, setSelectedRecord] = useState<any>(null)
+  const [selectedRecord, setSelectedRecord] = useState<typeof mockKYCRecords[0] | null>(null)
   const [filter, setFilter] = useState('ALL')
   const [isProcessing, setIsProcessing] = useState(false)
 
@@ -224,7 +224,7 @@ export default function KYCQueuePage() {
                 <div className="space-y-2">
                   <Label>Documents</Label>
                   <div className="space-y-2">
-                    {selectedRecord.documents.map((doc: any, index: number) => (
+                    {selectedRecord.documents.map((doc: { type: string; url: string; uploadedAt: Date }, index: number) => (
                       <div key={index} className="flex items-center justify-between p-2 border rounded">
                         <div className="flex items-center space-x-2">
                           <FileText className="h-4 w-4" />

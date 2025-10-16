@@ -18,7 +18,7 @@ export async function POST(request: NextRequest) {
       eventType,
       payload: payload || {},
       url,
-      status: isSuccess ? 'DELIVERED' : 'FAILED',
+      status: isSuccess ? 'DELIVERED' as const : 'FAILED' as const,
       responseCode: isSuccess ? 200 : 500,
       responseBody: isSuccess ? '{"status": "success"}' : 'Internal Server Error',
       retryCount: 0,

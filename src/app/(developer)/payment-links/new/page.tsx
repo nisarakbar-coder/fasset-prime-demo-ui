@@ -20,7 +20,7 @@ export default function CreatePaymentLinkPage() {
   const [settlementAccounts, setSettlementAccounts] = useState<SettlementAccount[]>([])
   const [isLoading, setIsLoading] = useState(true)
   const [isSubmitting, setIsSubmitting] = useState(false)
-  const [createdLink, setCreatedLink] = useState<any>(null)
+  const [createdLink, setCreatedLink] = useState<{ id: string; url: string; status: string; createdAt: string } | null>(null)
   const [error, setError] = useState<string | null>(null)
 
   // Load data on component mount
@@ -54,7 +54,10 @@ export default function CreatePaymentLinkPage() {
       setError(null)
       
       const response = await apiClient.createPaymentLink(data)
-      setCreatedLink(response)
+      setCreatedLink({
+        ...response,
+        createdAt: response.createdAt.toISOString()
+      })
       
       toast.success('Payment link created successfully!')
     } catch (error) {
