@@ -62,7 +62,7 @@ A comprehensive multi-portal web application built with Next.js, TypeScript, and
    ```
 
 5. **Open your browser**
-   Navigate to [http://localhost:3000](http://localhost:3000)
+   Navigate to [https://fasset-prime-demo-ui.vercel.app](https://fasset-prime-demo-ui.vercel.app)
 
 ## 🔐 Demo Credentials
 

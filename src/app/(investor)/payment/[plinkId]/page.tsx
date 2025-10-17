@@ -44,7 +44,7 @@ export default function PaymentPage({ params }: PaymentPageProps) {
         }
 
         // Fetch payment link details
-        const baseUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000'
+        const baseUrl = process.env.NEXT_PUBLIC_API_URL || 'https://fasset-prime-demo-ui.vercel.app'
         const paymentResponse = await fetch(`${baseUrl}/api/payment-links/${plinkId}`, {
           cache: 'no-store'
         })
