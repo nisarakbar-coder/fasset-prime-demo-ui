@@ -140,6 +140,23 @@ export function KycStep({ paymentLink, kycStatus, onStatusChange }: KycStepProps
     }
   }
 
+  const handleStartKyc = async () => {
+    try {
+      setIsLoading(true)
+      
+      // Simulate API call to start KYC process
+      await new Promise(resolve => setTimeout(resolve, 1000))
+      
+      // Mock success response
+      onStatusChange('KYC_PENDING')
+      toast.success('KYC process started')
+    } catch (error) {
+      console.error('KYC start error:', error)
+      toast.error('Failed to start KYC process')
+    } finally {
+      setIsLoading(false)
+    }
+  }
 
   if (!paymentLink.requireKyc) {
     return (

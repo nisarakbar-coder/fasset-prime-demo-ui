@@ -45,7 +45,7 @@ export function AppShell({
 }: AppShellProps) {
   const { theme, setTheme } = useTheme()
   // Mock user for now - will be passed from parent
-  const user = { name: 'User', email: 'user@example.com' }
+  const user = { name: 'User', email: 'user@example.com', role: 'admin' }
   const logout = () => {
     if (typeof window !== 'undefined') {
       localStorage.removeItem('fasset-user')

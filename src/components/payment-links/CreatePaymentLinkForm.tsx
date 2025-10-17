@@ -37,7 +37,7 @@ export function CreatePaymentLinkForm({
   const [expiryTime, setExpiryTime] = useState('')
   const [isExpiryOpen, setIsExpiryOpen] = useState(false)
 
-  const form = useForm<CreatePaymentLinkRequest>({
+  const form = useForm({
     resolver: zodResolver(CreatePaymentLinkSchema),
     defaultValues: {
       projectId: '',
@@ -150,8 +150,8 @@ export function CreatePaymentLinkForm({
                     form.setValue('buyer', { type: 'email', email: e.target.value })
                   }}
                 />
-                {errors.buyer?.email && (
-                  <p className="text-sm text-red-500">{errors.buyer.email.message}</p>
+                {errors.buyer && 'email' in errors.buyer && (errors.buyer as { email: { message: string } }).email && (
+                  <p className="text-sm text-red-500">{(errors.buyer as { email: { message: string } }).email.message}</p>
                 )}
               </TabsContent>
               <TabsContent value="externalId" className="space-y-2">
@@ -162,8 +162,8 @@ export function CreatePaymentLinkForm({
                     form.setValue('buyer', { type: 'externalId', externalId: e.target.value })
                   }}
                 />
-                {errors.buyer?.externalId && (
-                  <p className="text-sm text-red-500">{errors.buyer.externalId.message}</p>
+                {errors.buyer && 'externalId' in errors.buyer && (errors.buyer as { externalId: { message: string } }).externalId && (
+                  <p className="text-sm text-red-500">{(errors.buyer as { externalId: { message: string } }).externalId.message}</p>
                 )}
               </TabsContent>
             </Tabs>
